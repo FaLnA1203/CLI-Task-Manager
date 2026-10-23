@@ -1,11 +1,12 @@
 package main
 
 import (
-	"TaskManager/storage"
-	"TaskManager/task"
 	"bufio"
 	"fmt"
 	"os"
+
+	"TaskManager/storage"
+	"TaskManager/task"
 )
 
 const dataFile = "tasks.json"
@@ -48,6 +49,10 @@ FOR:
 			fmt.Print("\033[2J")
 			fmt.Print("Task title: ")
 			name := scanner.Text()
+			if name == "" {
+				fmt.Println("Нельзя создавать задачи с пустым названием")
+				break
+			}
 			task1.CreateTask(len(t)+1, name)
 			t = append(t, task1)
 		case 2:
