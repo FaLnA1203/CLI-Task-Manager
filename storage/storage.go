@@ -16,11 +16,13 @@ func Save(filename string, t []task.Task) error {
 
 func Load(filename string) ([]task.Task, error) {
 	data, err := os.ReadFile(filename)
+	var tasks []task.Task
+	if os.IsNotExist(err){return tasks, nil}
 	if err != nil {
 		return nil, err
 	}
 
-	var tasks []task.Task
+
 	err = json.Unmarshal(data, &tasks)
 	return tasks, err
 }

@@ -11,6 +11,10 @@ import (
 const dataFile = "tasks.json"
 
 func DeleteTask(t *[]task.Task, id int) {
+	if id < 1 || id > len(*t) {
+		fmt.Println("Задача с таким ID не найдена")
+		return
+	}
 	*t = append((*t)[:id-1], (*t)[id:]...)
 	for i, _ := range *t {
 		(*t)[i].Id = i + 1
@@ -18,14 +22,20 @@ func DeleteTask(t *[]task.Task, id int) {
 }
 
 func main() {
-	t, _ := storage.Load(dataFile)
+	t, err := storage.Load(dataFile)
+	if err != nil {
+		fmt.Println("Ошибка загрузки задач:", err)
+		return
+	}
 	var opt int
 	var id int
 	var task1 task.Task
 	scanner := bufio.NewScanner(os.Stdin)
 FOR:
 	for {
-		storage.Save(dataFile, t)
+		if erro := storage.Save(dataFile, t); erro != nil {
+			fmt.Println("Ошибка сохранения:", err)
+		}
 		fmt.Print("\033[2J")
 		fmt.Println("Task Manager")
 		fmt.Println("")
@@ -37,7 +47,6 @@ FOR:
 		case 1:
 			fmt.Print("\033[2J")
 			fmt.Print("Task title: ")
-			scanner.Scan()
 			name := scanner.Text()
 			task1.CreateTask(len(t)+1, name)
 			t = append(t, task1)
@@ -53,6 +62,10 @@ FOR:
 			fmt.Print("\033[2J")
 			fmt.Print("Task id: ")
 			fmt.Scan(&id)
+			if id < 1 || id > len(t) {
+				fmt.Println("Задача с таким ID не найдена")
+				break
+			}
 			t[id-1].Complete()
 		case 4:
 			fmt.Print("\033[2J")
