@@ -76,6 +76,10 @@ FOR:
 			fmt.Print("\033[2J")
 			fmt.Print("Task id: ")
 			fmt.Scan(&id)
+			if id < 1 || id > len(t) {
+				fmt.Println("Задача с таким ID не найдена")
+				break
+			}
 			DeleteTask(&t, id)
 		case 5:
 			break FOR
