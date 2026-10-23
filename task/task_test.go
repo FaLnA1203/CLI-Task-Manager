@@ -58,4 +58,5 @@ func TestDelete(t *testing.T) {
 	}
 	DeleteTask(&currentTasks2, 2)
 	t.Log("Программа продолжает работать")
+	
 }

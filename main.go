@@ -34,7 +34,7 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 FOR:
 	for {
-		if erro := storage.Save(dataFile, t); erro != nil {
+		if err := storage.Save(dataFile, t); err != nil {
 			fmt.Println("Ошибка сохранения:", err)
 		}
 		fmt.Print("\033[2J")
@@ -48,6 +48,9 @@ FOR:
 		case 1:
 			fmt.Print("\033[2J")
 			fmt.Print("Task title: ")
+			if !scanner.Scan() {
+				return
+			}
 			name := scanner.Text()
 			if name == "" {
 				fmt.Println("Нельзя создавать задачи с пустым названием")
