@@ -11,9 +11,9 @@ import (
 const dataFile = "tasks.json"
 
 func DeleteTask(t *[]task.Task, id int) {
-	*t = append((*t)[:id], (*t)[id+1:]...)
-	for _, task := range *t {
-		task.Id -= 1
+	*t = append((*t)[:id-1], (*t)[id:]...)
+	for i, _ := range *t {
+		(*t)[i].Id -= 1
 	}
 }
 
