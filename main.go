@@ -13,7 +13,7 @@ const dataFile = "tasks.json"
 func DeleteTask(t *[]task.Task, id int) {
 	*t = append((*t)[:id-1], (*t)[id:]...)
 	for i, _ := range *t {
-		(*t)[i].Id -= 1
+		(*t)[i].Id = i + 1
 	}
 }
 
