@@ -4,23 +4,23 @@ import "fmt"
 
 type Task struct {
 	Id        int
-	taskName  string
-	completed bool
+	TaskName  string
+	Completed bool
 }
 
 func (t *Task) CreateTask(_id int, name string) {
 	t.Id = _id
-	t.taskName = name
-	t.completed = false
+	t.TaskName = name
+	t.Completed = false
 }
 
 func (t *Task) Complete() {
-	t.completed = true
+	t.Completed = true
 }
 
 func (t *Task) PrintTask() {
-	fmt.Print(t.Id, ". ", t.taskName)
-	switch t.completed {
+	fmt.Print(t.Id, ". ", t.TaskName)
+	switch t.Completed {
 	case true:
 		fmt.Println(" ✓")
 	case false:

@@ -1,31 +1,35 @@
 package main
 
 import (
+	"TaskManager/storage"
 	"TaskManager/task"
 	"bufio"
 	"fmt"
 	"os"
 )
 
+const dataFile = "tasks.json"
+
 func DeleteTask(t *[]task.Task, id int) {
 	*t = append((*t)[:id], (*t)[id+1:]...)
-	for i, task := range *t {
-		task.Id = i - 1
+	for _, task := range *t {
+		task.Id -= 1
 	}
 }
 
 func main() {
-	var t []task.Task
+	t, _ := storage.Load(dataFile)
 	var opt int
 	var id int
 	var task1 task.Task
 	scanner := bufio.NewScanner(os.Stdin)
 FOR:
 	for {
+		storage.Save(dataFile, t)
 		fmt.Print("\033[2J")
 		fmt.Println("Task Manager")
 		fmt.Println("")
-		fmt.Println("1. Add task\n2. List tasks\n3. Complete task\n4. Delete task\n5. Exit")
+		fmt.Println("1. Add task\n2. List tasks\n3. Complete task\n4. Delete task\n5.Exit")
 		fmt.Println("")
 		fmt.Print("Enter number: ")
 		fmt.Scan(&opt)
@@ -54,12 +58,11 @@ FOR:
 			fmt.Print("\033[2J")
 			fmt.Print("Task id: ")
 			fmt.Scan(&id)
-			DeleteTask(&t, id-1)
+			DeleteTask(&t, id)
 		case 5:
 			break FOR
 		default:
 			fmt.Println("There is no such command.")
 		}
-
 	}
 }
